@@ -1,0 +1,77 @@
+# Indentation string: two spaces (instead of default 4 or a tab)
+defaultIndent: '  '
+
+# Indent the preamble (before \begin{document})
+indentPreamble: 1
+
+# Keep blank lines between sections
+preserveBlankLines: 1
+
+# Remove trailing spaces at the end of lines
+removeTrailingWhitespace: 1
+
+# Keep any leading whitespace that was already present
+preserveLeadingWhitespace: 1
+
+# Control how environments are indented
+indentEnvironments:
+  verbatim: 0             # Don't indent verbatim
+  lstlisting: 0           # Don't indent listings
+  minted: 0               # Don't indent minted environments
+  Verbatim: 0             # Don't indent Verbatim from fancyvrb
+  tcbverbatimwrite: 0     # Don't indent tcolorbox's verbatim writing
+  default: 1              # Indent all other environments
+
+# Align things inside math/tabular-like environments
+lookForAlignDelims:
+  tabular:
+    alignDoubleBackSlash: 1     # Align rows by \\ in tabular
+  array:
+    alignDoubleBackSlash: 1
+  matrix:
+    alignDoubleBackSlash: 1
+  align:
+    alignDoubleBackSlash: 1
+  align*:
+    alignDoubleBackSlash: 1
+  equation:
+    alignDoubleBackSlash: 1
+  equation*:
+    alignDoubleBackSlash: 1
+
+# Indent content after these commands
+indentRules:
+  chapter:
+    indentAfterThisCommand: 1
+  section:
+    indentAfterThisCommand: 1
+  subsection:
+    indentAfterThisCommand: 1
+  subsubsection:
+    indentAfterThisCommand: 1
+
+# Adjust line wrapping/formatting
+modifyLineBreaks:
+  textWrapOptions:
+    columns: 100                       # Max line width before wrapping
+    removeParagraphLineBreaks: 1      # Rewrap paragraph lines into one
+
+# Formatting for opening/closing curly braces
+braceFormatting:
+  openingBraceOnNewLine: 0       # Keep opening brace on same line
+  closingBraceOnOwnLine: 0       # Keep closing brace inline
+
+# List of environments that should never be indented
+noIndentBlock:
+  verbatim:
+    - verbatim
+    - lstlisting
+    - minted
+    - Verbatim
+    - tcbverbatimwrite
+
+# Use UTF-8 file encoding
+fileEncoding: 'utf8'
+
+# Keep comments at the ends of lines aligned properly
+trailingComments: 1

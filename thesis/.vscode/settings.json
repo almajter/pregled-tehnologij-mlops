@@ -1,0 +1,43 @@
+{
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "[latex]": {
+    "editor.wordWrap": "on",
+    "editor.wordWrapColumn": 80,
+    "editor.wrappingIndent": "indent"
+  },
+  "[tex]": {
+    "editor.wordWrap": "on",
+    "editor.wordWrapColumn": 80,
+    "editor.wrappingIndent": "indent"
+  },
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk-main",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-pdf",
+        "-outdir=build",
+        "main.tex"
+      ]
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk (build main.tex)",
+      "tools": [
+        "latexmk-main"
+      ]
+    }
+  ],
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.latex.autoBuild.run": "onFileChange",
+  "latex-workshop.latex.outDir": "build",
+  "latex-workshop.view.pdf.external.viewer.command": "xdg-open",
+  "latex-workshop.view.pdf.external.viewer.args": [
+    "%PDF%"
+  ]
+}
