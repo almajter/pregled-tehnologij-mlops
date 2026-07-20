@@ -4,10 +4,10 @@ name: Build LaTeX PDF
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -25,3 +25,4 @@ jobs:
         with:
           name: thesis
           path: thesis/main.pdf
+
