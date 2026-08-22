@@ -12,3 +12,15 @@
 
 thesis/main.pdf
 
+
+# Python / project
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+project/.env
+project/data/
+project/models/
+project/metrics.json
+project/plots/
