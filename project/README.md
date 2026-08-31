@@ -60,7 +60,7 @@ Stages can also run standalone, e.g. `uv run python -m price_forecaster.train`.
 
 On the homelab the stack splits in two LXCs: the platform (`docker compose up
 -d postgres minio minio-init mlflow` from this compose file) and the API
-(`deploy/api.compose.yml`, pointed at the platform via `MLFLOW_TRACKING_URI`
+(`deploy/compose.yml`, pointed at the platform via `MLFLOW_TRACKING_URI`
 in `deploy/.env`). Credentials default to the dev values above; production
 overrides them in a `.env` next to the compose file. Runbooks live in the
 homelab wiki.
