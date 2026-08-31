@@ -24,3 +24,7 @@ project/deploy/.env
 project/data/
 project/models/
 project/plots/
+
+# gitlab-ci-local (local CI runs)
+.gitlab-ci-local/
+.gitlab-ci-local-variables.yml

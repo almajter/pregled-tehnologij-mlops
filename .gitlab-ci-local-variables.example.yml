@@ -1,0 +1,4 @@
+# Copy to .gitlab-ci-local-variables.yml (gitignored) to run the pipeline
+# locally with `gitlab-ci-local`. The lint job needs no variables yet; add
+# CI variables here as jobs that need them appear.
+{}
