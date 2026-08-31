@@ -12,8 +12,8 @@ docker compose up -d   # MLflow + Postgres + MinIO
 
 MLflow UI: <http://localhost:5001> (5001 because macOS AirPlay sits on 5000).
 MinIO console: <http://localhost:9001> (minio / minio123). MLflow stores runs
-in Postgres and artifacts in the MinIO `mlflow` bucket; everything stays in
-Docker volumes.
+in Postgres and artifacts in the MinIO `mlflow` bucket; DVC pushes data and
+models to the `dvc` bucket; everything stays in Docker volumes.
 
 ## Pipeline
 
@@ -21,6 +21,7 @@ DVC pipeline with three stages, see `dvc.yaml`:
 
 ```sh
 uv run dvc repro
+uv run dvc push   # upload data + model to the MinIO remote
 ```
 
 - **ingest** — fetches ~3 years of SI day-ahead prices from the
