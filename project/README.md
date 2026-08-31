@@ -62,8 +62,9 @@ On the homelab the stack splits in two LXCs: the platform (`docker compose up
 -d postgres minio minio-init mlflow` from this compose file) and the API
 (`deploy/compose.yml`, pointed at the platform via `MLFLOW_TRACKING_URI`
 in `deploy/.env`). Credentials default to the dev values above; production
-overrides them in a `.env` next to the compose file. Runbooks live in the
-homelab wiki.
+overrides them in a `.env` next to the compose file — see `.env.example` and
+`deploy/.env.example` for what each one needs. Runbooks live in the homelab
+wiki.
 
 ## Current results
 
