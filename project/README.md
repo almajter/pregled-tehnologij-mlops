@@ -5,5 +5,5 @@ The MLOps pipeline artifact for the thesis in `../thesis`.
 
 ```sh
 uv sync
-uv run pytest
+uv run python -m price_forecaster.ingest
 ```
