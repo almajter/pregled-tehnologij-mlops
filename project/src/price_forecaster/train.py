@@ -51,7 +51,12 @@ def main() -> None:
         metrics["lightgbm"] = score(lgbm.predict(X_test), y_test)
         mlflow.log_params(LGBM_PARAMS)
         mlflow.log_metrics(metrics["lightgbm"])
-        mlflow.lightgbm.log_model(lgbm, name="model")
+        info = mlflow.lightgbm.log_model(
+            lgbm, name="model", registered_model_name="price-forecaster"
+        )
+        mlflow.MlflowClient().set_registered_model_alias(
+            "price-forecaster", "production", info.registered_model_version
+        )
 
     MODEL_PATH.parent.mkdir(exist_ok=True)
     joblib.dump(lgbm, MODEL_PATH)

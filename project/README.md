@@ -34,7 +34,21 @@ uv run dvc repro
   baseline (price tomorrow at hour h = price today at hour h) on the last
   90 days, saves `models/model.pkl` and writes `metrics.json`; each model is
   logged as an MLflow run in the `price-forecaster` experiment (override the
-  server with `MLFLOW_TRACKING_URI`)
+  server with `MLFLOW_TRACKING_URI`); the LightGBM model is registered as
+  `price-forecaster` and promoted to the `production` alias
+
+## Serving
+
+```sh
+uv run uvicorn price_forecaster.api:app --port 8000
+```
+
+Loads `models:/price-forecaster@production` from the registry at startup.
+
+- `GET /forecast` — tomorrow's 24 hourly prices (EUR/MWh); features are built
+  from live Energy-Charts data, every response is appended to
+  `data/forecasts.jsonl` for later predictions-vs-actuals evaluation
+- `GET /health` — status + served model version
 
 Stages can also run standalone, e.g. `uv run python -m price_forecaster.train`.
 

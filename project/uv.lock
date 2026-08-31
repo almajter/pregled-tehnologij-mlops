@@ -1521,6 +1521,7 @@ name = "price-forecaster"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "fastapi" },
     { name = "holidays" },
     { name = "lightgbm" },
     { name = "mlflow" },
@@ -1528,6 +1529,7 @@ dependencies = [
     { name = "pyarrow" },
     { name = "requests" },
     { name = "scikit-learn" },
+    { name = "uvicorn" },
 ]
 
 [package.dev-dependencies]
@@ -1539,6 +1541,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "fastapi", specifier = "<1" },
     { name = "holidays", specifier = ">=0.103" },
     { name = "lightgbm", specifier = ">=4,<5" },
     { name = "mlflow", specifier = ">=3,<4" },
@@ -1546,6 +1549,7 @@ requires-dist = [
     { name = "pyarrow", specifier = ">=25.0.1" },
     { name = "requests", specifier = ">=2.34.2" },
     { name = "scikit-learn", specifier = ">=1.7,<2" },
+    { name = "uvicorn", specifier = "<1" },
 ]
 
 [package.metadata.requires-dev]
