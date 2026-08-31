@@ -7,7 +7,13 @@ The MLOps pipeline artifact for the thesis in `../thesis`.
 
 ```sh
 uv sync
+docker compose up -d   # MLflow + Postgres + MinIO
 ```
+
+MLflow UI: <http://localhost:5001> (5001 because macOS AirPlay sits on 5000).
+MinIO console: <http://localhost:9001> (minio / minio123). MLflow stores runs
+in Postgres and artifacts in the MinIO `mlflow` bucket; everything stays in
+Docker volumes.
 
 ## Pipeline
 
@@ -26,7 +32,9 @@ uv run dvc repro
   mean), writes `data/features.parquet`
 - **train** — trains Ridge and LightGBM, scores them and the naive lag-24
   baseline (price tomorrow at hour h = price today at hour h) on the last
-  90 days, saves `models/model.pkl` and writes `metrics.json`
+  90 days, saves `models/model.pkl` and writes `metrics.json`; each model is
+  logged as an MLflow run in the `price-forecaster` experiment (override the
+  server with `MLFLOW_TRACKING_URI`)
 
 Stages can also run standalone, e.g. `uv run python -m price_forecaster.train`.
 

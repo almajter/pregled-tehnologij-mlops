@@ -53,8 +53,8 @@ stages:
       size: 851092
     - path: src/price_forecaster/train.py
       hash: md5
-      md5: 1ef73f980fcdcc3de44986e619ce1534
-      size: 1365
+      md5: aad1b9c731596bd70683150e92caf4b5
+      size: 1971
     outs:
     - path: metrics.json
       hash: md5
