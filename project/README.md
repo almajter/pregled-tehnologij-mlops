@@ -7,7 +7,7 @@ The MLOps pipeline artifact for the thesis in `../thesis`.
 
 ```sh
 uv sync
-docker compose up -d   # MLflow + Postgres + MinIO
+docker compose up -d   # MLflow + Postgres + MinIO + the serving API
 ```
 
 MLflow UI: <http://localhost:5001> (5001 because macOS AirPlay sits on 5000).
@@ -40,11 +40,14 @@ uv run dvc push   # upload data + model to the MinIO remote
 
 ## Serving
 
+The `api` service in the compose stack serves on <http://localhost:8000>; it
+loads `models:/price-forecaster@production` from the registry at startup, so
+it needs a trained model (`dvc repro`) before its first start. For local
+development run it outside Docker:
+
 ```sh
 uv run uvicorn price_forecaster.api:app --port 8000
 ```
-
-Loads `models:/price-forecaster@production` from the registry at startup.
 
 - `GET /forecast` — tomorrow's 24 hourly prices (EUR/MWh); features are built
   from live Energy-Charts data, every response is appended to

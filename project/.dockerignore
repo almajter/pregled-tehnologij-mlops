@@ -1,0 +1,6 @@
+.venv
+.dvc/cache
+.ruff_cache
+data
+models
+mlflow
