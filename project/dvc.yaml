@@ -1,0 +1,15 @@
+stages:
+  ingest:
+    cmd: uv run python -m price_forecaster.ingest
+    deps:
+      - src/price_forecaster/ingest.py
+    outs:
+      - data/raw/prices.parquet
+  evaluate:
+    cmd: uv run python -m price_forecaster.evaluate
+    deps:
+      - src/price_forecaster/evaluate.py
+      - data/raw/prices.parquet
+    metrics:
+      - metrics.json:
+          cache: false

@@ -1,0 +1,5 @@
+{
+  "model": "naive-lag24",
+  "mae": 25.03,
+  "rmse": 42.5
+}
