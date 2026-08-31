@@ -1,5 +1,14 @@
 {
-  "model": "naive-lag24",
-  "mae": 25.03,
-  "rmse": 42.5
+  "naive-lag24": {
+    "mae": 29.95,
+    "rmse": 54.65
+  },
+  "ridge": {
+    "mae": 25.62,
+    "rmse": 45.47
+  },
+  "lightgbm": {
+    "mae": 27.54,
+    "rmse": 48.1
+  }
 }

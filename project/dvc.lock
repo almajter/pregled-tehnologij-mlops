@@ -5,8 +5,8 @@ stages:
     deps:
     - path: src/price_forecaster/ingest.py
       hash: md5
-      md5: 5884d8d0ecfec3612cf6b98d634332e0
-      size: 1253
+      md5: 778c1cd4d61e669876857d2350cb5732
+      size: 1267
     outs:
     - path: data/raw/prices.parquet
       hash: md5
@@ -28,3 +28,39 @@ stages:
       hash: md5
       md5: 14f21e9a38798ca54f43114b5b1ebc35
       size: 61
+  features:
+    cmd: uv run python -m price_forecaster.features
+    deps:
+    - path: data/raw/prices.parquet
+      hash: md5
+      md5: 0feebfd0dfbc17c2568a2caf243e37f0
+      size: 370804
+    - path: src/price_forecaster/features.py
+      hash: md5
+      md5: 4458ad895bffaff652f2b1d0fcdb42b4
+      size: 863
+    outs:
+    - path: data/features.parquet
+      hash: md5
+      md5: eaec51391af1bf5475368a3b49104d38
+      size: 851092
+  train:
+    cmd: uv run python -m price_forecaster.train
+    deps:
+    - path: data/features.parquet
+      hash: md5
+      md5: eaec51391af1bf5475368a3b49104d38
+      size: 851092
+    - path: src/price_forecaster/train.py
+      hash: md5
+      md5: 1ef73f980fcdcc3de44986e619ce1534
+      size: 1365
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 4763d8e9b7575721f8e9cbbaffe5624f
+      size: 173
+    - path: models/model.pkl
+      hash: md5
+      md5: e7be0a4a59dcc2a4372fd9a9424eb3f0
+      size: 1375484

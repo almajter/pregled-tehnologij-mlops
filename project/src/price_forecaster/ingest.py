@@ -13,7 +13,9 @@ BACKFILL_YEARS = 3
 
 def fetch_prices(start: str, end: str) -> pd.DataFrame:
     """Prices for [start, end] as hourly means with a UTC datetime index."""
-    resp = requests.get(API_URL, params={"bzn": "SI", "start": start, "end": end}, timeout=120)
+    resp = requests.get(
+        API_URL, params={"bzn": "SI", "start": start, "end": end}, timeout=120
+    )
     resp.raise_for_status()
     data = resp.json()
     index = pd.to_datetime(data["unix_seconds"], unit="s", utc=True).rename("time")

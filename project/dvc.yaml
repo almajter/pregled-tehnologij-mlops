@@ -5,11 +5,20 @@ stages:
       - src/price_forecaster/ingest.py
     outs:
       - data/raw/prices.parquet
-  evaluate:
-    cmd: uv run python -m price_forecaster.evaluate
+  features:
+    cmd: uv run python -m price_forecaster.features
     deps:
-      - src/price_forecaster/evaluate.py
+      - src/price_forecaster/features.py
       - data/raw/prices.parquet
+    outs:
+      - data/features.parquet
+  train:
+    cmd: uv run python -m price_forecaster.train
+    deps:
+      - src/price_forecaster/train.py
+      - data/features.parquet
+    outs:
+      - models/model.pkl
     metrics:
       - metrics.json:
           cache: false
