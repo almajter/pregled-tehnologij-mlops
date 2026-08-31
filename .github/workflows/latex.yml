@@ -29,3 +29,20 @@ jobs:
           name: thesis
           path: thesis/build/main.pdf
 
+  # GitHub is the origin; the self-hosted GitLab (gitlab.alters.si) is a mirror
+  mirror:
+    name: Mirror to GitLab
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push main to gitlab.alters.si
+        run: |
+          git push --force \
+            "https://oauth2:${{ secrets.GITLAB_MIRROR_TOKEN }}@gitlab.alters.si/majal/pregled-tehnologij-mlops.git" \
+            HEAD:refs/heads/main
+
