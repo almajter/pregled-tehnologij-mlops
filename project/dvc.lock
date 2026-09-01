@@ -37,8 +37,8 @@ stages:
       size: 370804
     - path: src/price_forecaster/features.py
       hash: md5
-      md5: 292dfc1326f28152ad55bb8cd1d04db4
-      size: 1033
+      md5: a2f757f74b2bcb253eb4f1ba1a519ccd
+      size: 1014
     outs:
     - path: data/features.parquet
       hash: md5
@@ -53,14 +53,10 @@ stages:
       size: 851092
     - path: src/price_forecaster/train.py
       hash: md5
-      md5: 19b890fd3572b7f203d222764454f5ef
-      size: 2200
+      md5: a84a16b805d036f5b33b908c21ff3e6f
+      size: 2071
     outs:
     - path: metrics.json
       hash: md5
       md5: 4763d8e9b7575721f8e9cbbaffe5624f
       size: 173
-    - path: models/model.pkl
-      hash: md5
-      md5: e7be0a4a59dcc2a4372fd9a9424eb3f0
-      size: 1375484
