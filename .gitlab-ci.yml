@@ -42,9 +42,11 @@ deploy:
     - apk add --no-cache openssh-client
     - mkdir -m 700 ~/.ssh
     - echo "$FORECAST01_HOST_KEY" > ~/.ssh/known_hosts
-    - chmod 600 "$DEPLOY_SSH_KEY"
+    # GitLab's variable form strips the trailing newline; OpenSSH then refuses the key ("error in libcrypto")
+    - printf '%s\n' "$(cat "$DEPLOY_SSH_KEY")" > ~/.ssh/key
+    - chmod 600 ~/.ssh/key
   script:
-    - printf '%s\n' "$CI_REGISTRY_USER" "$CI_REGISTRY_PASSWORD" "$ENTSOE_API_TOKEN" "$MLFLOW_TRACKING_URI" | ssh -i "$DEPLOY_SSH_KEY" deploy@10.0.10.20 "$CI_COMMIT_SHORT_SHA"
+    - printf '%s\n' "$CI_REGISTRY_USER" "$CI_REGISTRY_PASSWORD" "$ENTSOE_API_TOKEN" "$MLFLOW_TRACKING_URI" | ssh -i ~/.ssh/key deploy@10.0.10.20 "$CI_COMMIT_SHORT_SHA"
 
 verify:
   stage: verify
