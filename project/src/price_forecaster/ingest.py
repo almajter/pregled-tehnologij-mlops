@@ -1,25 +1,26 @@
-"""Fetch SI day-ahead prices from Energy-Charts, resample to hourly, store as parquet."""
+"""Fetch SI day-ahead prices from ENTSO-E, resample to hourly, store as parquet."""
 
+import os
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pandas as pd
-import requests
+from entsoe import EntsoePandasClient
 
-API_URL = "https://api.energy-charts.info/price"
 OUT_PATH = Path("data/raw/prices.parquet")
 BACKFILL_YEARS = 3
 
 
 def fetch_prices(start: str, end: str) -> pd.DataFrame:
     """Prices for [start, end] as hourly means with a UTC datetime index."""
-    resp = requests.get(
-        API_URL, params={"bzn": "SI", "start": start, "end": end}, timeout=120
+    client = EntsoePandasClient(api_key=os.environ["ENTSOE_API_TOKEN"])
+    series = client.query_day_ahead_prices(
+        "SI",
+        start=pd.Timestamp(start, tz="Europe/Ljubljana"),
+        end=pd.Timestamp(end, tz="Europe/Ljubljana") + pd.Timedelta(days=1),
     )
-    resp.raise_for_status()
-    data = resp.json()
-    index = pd.to_datetime(data["unix_seconds"], unit="s", utc=True).rename("time")
-    df = pd.DataFrame({"price": data["price"]}, index=index)
+    df = series.rename("price").tz_convert("UTC").to_frame()
+    df.index = df.index.rename("time")
     # 15-minute resolution since the SDAC switch; hourly rows pass through unchanged
     return df.resample("1h").mean().dropna()
 
