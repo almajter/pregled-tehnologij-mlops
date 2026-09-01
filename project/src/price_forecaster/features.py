@@ -10,7 +10,6 @@ OUT_PATH = Path("data/features.parquet")
 
 def build_features(df: pd.DataFrame) -> pd.DataFrame:
     """Add feature columns to a frame with a UTC hourly index and a price column."""
-    df = df.copy()
     local = df.index.tz_convert("Europe/Ljubljana")
     si_holidays = holidays.SI()
 

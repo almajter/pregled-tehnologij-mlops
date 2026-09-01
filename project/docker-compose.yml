@@ -70,7 +70,8 @@ services:
       context: .
       dockerfile: docker/api/Dockerfile
     environment:
-      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MLFLOW_TRACKING_URI: ${MLFLOW_TRACKING_URI:-http://mlflow:5000}
+      ENTSOE_API_TOKEN: ${ENTSOE_API_TOKEN:?set in .env}
     ports:
       - "8000:8000"
     volumes:

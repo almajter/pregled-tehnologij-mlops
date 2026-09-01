@@ -4,7 +4,6 @@ import json
 import os
 from pathlib import Path
 
-import joblib
 import mlflow
 import pandas as pd
 from lightgbm import LGBMRegressor
@@ -12,7 +11,6 @@ from sklearn.linear_model import Ridge
 
 TEST_DAYS = 90
 LGBM_PARAMS = {"n_estimators": 500, "learning_rate": 0.05}
-MODEL_PATH = Path("models/model.pkl")
 METRICS_PATH = Path("metrics.json")
 
 
@@ -58,8 +56,6 @@ def main() -> None:
             "price-forecaster", "production", info.registered_model_version
         )
 
-    MODEL_PATH.parent.mkdir(exist_ok=True)
-    joblib.dump(lgbm, MODEL_PATH)
     METRICS_PATH.write_text(json.dumps(metrics, indent=2) + "\n")
     print(json.dumps(metrics, indent=2))
 

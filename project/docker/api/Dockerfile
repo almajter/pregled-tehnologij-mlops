@@ -7,7 +7,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 \
 WORKDIR /app
 COPY pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-dev --no-install-project
-COPY README.md ./
 COPY src ./src
 RUN uv sync --frozen --no-dev
 

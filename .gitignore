@@ -20,9 +20,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 project/.env
-project/deploy/.env
 project/data/
-project/models/
 project/plots/
 
 # gitlab-ci-local (local CI runs)

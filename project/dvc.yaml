@@ -17,8 +17,6 @@ stages:
     deps:
       - src/price_forecaster/train.py
       - data/features.parquet
-    outs:
-      - models/model.pkl
     metrics:
       - metrics.json:
           cache: false
