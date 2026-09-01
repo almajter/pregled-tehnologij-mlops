@@ -1,4 +1,4 @@
-"""Train Ridge and LightGBM, compare against the naive lag-24 baseline on a holdout."""
+"""Train Ridge and LightGBM, compare against the naive lag-24/lag-168 baselines on a holdout."""
 
 import json
 import os
@@ -35,9 +35,10 @@ def main() -> None:
     X_test, y_test = test.drop(columns="price"), test["price"]
 
     metrics = {}
-    with mlflow.start_run(run_name="naive-lag24"):
-        metrics["naive-lag24"] = score(test["lag_24"], y_test)
-        mlflow.log_metrics(metrics["naive-lag24"])
+    for lag in (24, 168):
+        with mlflow.start_run(run_name=f"naive-lag{lag}"):
+            metrics[f"naive-lag{lag}"] = score(test[f"lag_{lag}"], y_test)
+            mlflow.log_metrics(metrics[f"naive-lag{lag}"])
 
     with mlflow.start_run(run_name="ridge"):
         ridge = Ridge().fit(X_train, y_train)
