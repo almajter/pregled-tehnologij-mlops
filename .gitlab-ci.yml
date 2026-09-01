@@ -1,4 +1,4 @@
-# GitHub is the origin; .github/workflows/latex.yml mirrors main here. This
+# GitHub is the origin; .github/workflows/ci.yml mirrors main here. This
 # file lints, builds the api image on runner-01 (docker socket), pushes it to
 # registry.alters.si and deploys it to forecast-01 (10.0.10.20) — same shape
 # as the alters.si pipeline.

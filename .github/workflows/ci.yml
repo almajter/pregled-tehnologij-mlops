@@ -1,5 +1,5 @@
 ---
-name: Build LaTeX PDF
+name: Thesis PDF and GitLab mirror
 
 on:
   push:
@@ -10,7 +10,8 @@ on:
       - main
 
 jobs:
-  build:
+  pdf:
+    name: Build thesis PDF
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -29,10 +30,11 @@ jobs:
           name: thesis
           path: thesis/build/main.pdf
 
-  # GitHub is the origin; the self-hosted GitLab (gitlab.alters.si) is a mirror
+  # GitHub is the origin; the self-hosted GitLab (gitlab.alters.si) is a mirror.
+  # Independent of the PDF build: the GitLab pipeline lints and deploys project/,
+  # a broken thesis chapter should not block an api deploy.
   mirror:
     name: Mirror to GitLab
-    needs: build
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:

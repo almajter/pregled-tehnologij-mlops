@@ -21,5 +21,5 @@ This repository contains the source files for my undergraduate thesis titled:
 
 ## GitHub Actions
 
-A GitHub Actions workflow (`.github/workflows/latex.yml`) automatically compiles `main.tex`
+A GitHub Actions workflow (`.github/workflows/ci.yml`) automatically compiles `main.tex`
 and uploads the resulting PDF as an artifact on every push to or PR against `main`.
