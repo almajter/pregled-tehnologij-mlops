@@ -60,9 +60,13 @@ Stages can also run standalone, e.g. `uv run python -m price_forecaster.train`.
 
 ## Deployment
 
-On the homelab the stack splits in two LXCs, both from this compose file: the
-platform (`docker compose up -d postgres minio minio-init mlflow`) and the API
-(`docker compose up -d --no-deps api` with `MLFLOW_TRACKING_URI` pointed at
-the platform). Credentials default to the dev values above; production
-overrides them in a `.env` next to the compose file — see `.env.example`.
-Runbooks live in the homelab wiki.
+On the homelab the platform (mlops-01) runs `docker compose up -d postgres
+minio minio-init mlflow` from this compose file with its credentials in a
+`.env` next to it — see `.env.example`. Runbooks live in the homelab wiki.
+
+The API (forecast-01) deploys from CI and keeps no repo, compose file or
+secrets on the host: a push to `main` is mirrored to GitLab, where
+`.gitlab-ci.yml` builds the api image, pushes it to `registry.alters.si` and
+sshes a forced command to forecast-01 with the job token, `ENTSOE_API_TOKEN`
+and `MLFLOW_TRACKING_URI` on stdin; the command pulls the image and
+`docker run`s it with those in its environment, then CI checks `/health`.

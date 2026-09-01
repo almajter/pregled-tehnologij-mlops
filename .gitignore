@@ -26,3 +26,7 @@ project/plots/
 # gitlab-ci-local (local CI runs)
 .gitlab-ci-local/
 .gitlab-ci-local-variables.yml
+
+# local deploy keypair for gitlab-ci-local
+.deploy_key
+.deploy_key.pub

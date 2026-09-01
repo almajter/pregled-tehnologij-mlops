@@ -1,4 +1,24 @@
 # Copy to .gitlab-ci-local-variables.yml (gitignored) to run the pipeline
-# locally with `gitlab-ci-local`. The lint job needs no variables yet; add
-# CI variables here as jobs that need them appear.
-{}
+# locally with `gitlab-ci-local`. lint needs nothing. The full run needs the
+# docker socket and the key mounted in (jobs only see git-tracked files):
+#
+#   gitlab-ci-local --volume /var/run/docker.sock:/var/run/docker.sock \
+#     --volume "$PWD/.deploy_key:/deploy_key" --variable DEPLOY_SSH_KEY=/deploy_key
+#
+# Same names as the GitLab CI/CD variables, so a value here is what goes there.
+
+# --- build: push to registry.alters.si (set by GitLab on a real runner) -----
+CI_REGISTRY: registry.alters.si
+CI_REGISTRY_IMAGE: registry.alters.si/majal/pregled-tehnologij-mlops
+# GitLab → project → Settings → Repository → Deploy tokens, scope write_registry
+CI_REGISTRY_USER: gitlab+deploy-token-1
+CI_REGISTRY_PASSWORD: change-me
+
+# --- deploy: ssh to forecast-01 -------------------------------------------
+# In GitLab: type "File", the private key. Locally: a path the job can read,
+# e.g. a gitignored file in the repo root.
+DEPLOY_SSH_KEY: .deploy_key
+# `ssh-keyscan -t ed25519 10.0.10.20`, one line
+FORECAST01_HOST_KEY: "10.0.10.20 ssh-ed25519 AAAA..."
+# In GitLab: masked. Same token as in project/.env.
+ENTSOE_API_TOKEN: change-me
