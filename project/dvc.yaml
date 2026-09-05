@@ -12,11 +12,18 @@ stages:
       - data/raw/prices.parquet
     outs:
       - data/features.parquet
-  train:
-    cmd: uv run python -m price_forecaster.train
+  evaluate:
+    cmd: uv run python -m price_forecaster.evaluate
     deps:
+      - src/price_forecaster/evaluate.py
       - src/price_forecaster/train.py
       - data/features.parquet
     metrics:
       - metrics.json:
           cache: false
+  train:
+    cmd: uv run python -m price_forecaster.train
+    deps:
+      - src/price_forecaster/train.py
+      - data/features.parquet
+      - metrics.json

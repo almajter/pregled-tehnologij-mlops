@@ -31,12 +31,15 @@ uv run dvc push   # upload data to the MinIO remote
 - **features** — calendar features (hour, day-of-week, month, weekend, SI
   holidays; local time) plus lagged prices (lag-24, lag-168, 7-day rolling
   mean), writes `data/features.parquet`
-- **train** — trains Ridge and LightGBM, scores them and the naive lag-24
-  baseline (price tomorrow at hour h = price today at hour h) on the last
-  90 days and writes `metrics.json`; each model is logged as an MLflow run in
-  the `price-forecaster` experiment (override the server with
-  `MLFLOW_TRACKING_URI`); the LightGBM model is registered as
-  `price-forecaster` and promoted to the `production` alias
+- **evaluate** — monthly walk-forward: train on everything before month M,
+  score month M (first 12 months are training only), slide forward. Compares
+  Ridge and LightGBM with the naive lag-24 (price tomorrow at hour h = price
+  today at hour h) and lag-168 baselines, writes `metrics.json` (MAE, RMSE,
+  MAE relative to lag-24, and `best`); each model is an MLflow run in the
+  `price-forecaster` experiment with per-fold `fold_mae` (override the server
+  with `MLFLOW_TRACKING_URI`)
+- **train** — fits `best` on all data, registers it as `price-forecaster` and
+  promotes it to the `production` alias
 
 Current numbers live in `metrics.json` and in MLflow.
 

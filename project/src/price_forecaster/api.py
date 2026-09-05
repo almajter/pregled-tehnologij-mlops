@@ -21,7 +21,7 @@ FORECAST_LOG = Path("data/forecasts.jsonl")
 # which the host can't resolve — keep downloads proxied through the server
 os.environ.setdefault("MLFLOW_ENABLE_PROXY_MULTIPART_DOWNLOAD", "false")
 mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI", "http://localhost:5001"))
-model = mlflow.lightgbm.load_model(f"models:/{MODEL_NAME}@production")
+model = mlflow.pyfunc.load_model(f"models:/{MODEL_NAME}@production")
 model_version = (
     mlflow.MlflowClient().get_model_version_by_alias(MODEL_NAME, "production").version
 )

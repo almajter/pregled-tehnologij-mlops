@@ -1,18 +1,24 @@
 {
   "naive-lag24": {
-    "mae": 29.95,
-    "rmse": 54.65
+    "mae": 25.65,
+    "rmse": 44.52,
+    "relative_mae": 1.0
   },
   "naive-lag168": {
-    "mae": 33.44,
-    "rmse": 61.67
+    "mae": 29.81,
+    "rmse": 52.39,
+    "relative_mae": 1.162
   },
   "ridge": {
-    "mae": 25.62,
-    "rmse": 45.47
+    "mae": 22.6,
+    "rmse": 36.93,
+    "relative_mae": 0.881
   },
   "lightgbm": {
-    "mae": 27.54,
-    "rmse": 48.1
-  }
+    "mae": 22.57,
+    "rmse": 37.9,
+    "relative_mae": 0.88
+  },
+  "best": "lightgbm",
+  "folds": 24
 }

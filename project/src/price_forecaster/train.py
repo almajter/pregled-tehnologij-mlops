@@ -1,4 +1,4 @@
-"""Train Ridge and LightGBM, compare against the naive lag-24/lag-168 baselines on a holdout."""
+"""Fit the walk-forward winner from metrics.json on all data and promote it."""
 
 import json
 import os
@@ -7,18 +7,23 @@ from pathlib import Path
 import mlflow
 import pandas as pd
 from lightgbm import LGBMRegressor
+from sklearn.compose import make_column_transformer
 from sklearn.linear_model import Ridge
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import OneHotEncoder
 
-TEST_DAYS = 90
+MODEL_NAME = "price-forecaster"
+CALENDAR = ["hour", "dayofweek", "month"]
 LGBM_PARAMS = {"n_estimators": 500, "learning_rate": 0.05}
-METRICS_PATH = Path("metrics.json")
 
 
-def score(pred, actual) -> dict:
-    error = actual - pred
+def candidates() -> dict:
+    onehot = make_column_transformer(
+        (OneHotEncoder(), CALENDAR), remainder="passthrough"
+    )
     return {
-        "mae": round(float(error.abs().mean()), 2),
-        "rmse": round(float((error**2).mean() ** 0.5), 2),
+        "ridge": make_pipeline(onehot, Ridge()),
+        "lightgbm": LGBMRegressor(**LGBM_PARAMS, verbose=-1),
     }
 
 
@@ -26,39 +31,19 @@ def main() -> None:
     mlflow.set_tracking_uri(
         os.environ.get("MLFLOW_TRACKING_URI", "http://localhost:5001")
     )
-    mlflow.set_experiment("price-forecaster")
+    mlflow.set_experiment(MODEL_NAME)
 
     df = pd.read_parquet("data/features.parquet")
-    split = len(df) - TEST_DAYS * 24
-    train, test = df.iloc[:split], df.iloc[split:]
-    X_train, y_train = train.drop(columns="price"), train["price"]
-    X_test, y_test = test.drop(columns="price"), test["price"]
+    best = json.loads(Path("metrics.json").read_text())["best"]
 
-    metrics = {}
-    for lag in (24, 168):
-        with mlflow.start_run(run_name=f"naive-lag{lag}"):
-            metrics[f"naive-lag{lag}"] = score(test[f"lag_{lag}"], y_test)
-            mlflow.log_metrics(metrics[f"naive-lag{lag}"])
-
-    with mlflow.start_run(run_name="ridge"):
-        ridge = Ridge().fit(X_train, y_train)
-        metrics["ridge"] = score(ridge.predict(X_test), y_test)
-        mlflow.log_metrics(metrics["ridge"])
-
-    with mlflow.start_run(run_name="lightgbm"):
-        lgbm = LGBMRegressor(**LGBM_PARAMS, verbose=-1).fit(X_train, y_train)
-        metrics["lightgbm"] = score(lgbm.predict(X_test), y_test)
-        mlflow.log_params(LGBM_PARAMS)
-        mlflow.log_metrics(metrics["lightgbm"])
-        info = mlflow.lightgbm.log_model(
-            lgbm, name="model", registered_model_name="price-forecaster"
-        )
+    with mlflow.start_run(run_name=f"train-{best}"):
+        model = candidates()[best].fit(df.drop(columns="price"), df["price"])
+        flavor = mlflow.lightgbm if best == "lightgbm" else mlflow.sklearn
+        info = flavor.log_model(model, name="model", registered_model_name=MODEL_NAME)
         mlflow.MlflowClient().set_registered_model_alias(
-            "price-forecaster", "production", info.registered_model_version
+            MODEL_NAME, "production", info.registered_model_version
         )
-
-    METRICS_PATH.write_text(json.dumps(metrics, indent=2) + "\n")
-    print(json.dumps(metrics, indent=2))
+    print(f"{best} -> {MODEL_NAME} v{info.registered_model_version} @production")
 
 
 if __name__ == "__main__":
