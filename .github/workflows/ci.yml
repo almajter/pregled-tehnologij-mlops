@@ -31,8 +31,6 @@ jobs:
           path: thesis/build/main.pdf
 
   # GitHub is the origin; the self-hosted GitLab (gitlab.alters.si) is a mirror.
-  # Independent of the PDF build: the GitLab pipeline lints and deploys project/,
-  # a broken thesis chapter should not block an api deploy.
   mirror:
     name: Mirror to GitLab
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'

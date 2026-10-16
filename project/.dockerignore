@@ -1,5 +1,0 @@
-.venv
-.dvc/cache
-.ruff_cache
-data
-mlflow
