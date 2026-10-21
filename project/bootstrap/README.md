@@ -3,7 +3,7 @@
 Ročno, enkrat: namesti Argo CD. Vse ostalo nato namešča Argo CD iz gita.
 
 - `00-namespace.yaml` – namespace `gitops`
-- `01-subscription.yaml` – Argo CD Operator (`community-operators`, kanal `alpha`), izvožen iz konzole, brez `startingCSV`
+- `01-subscription.yaml` – Argo CD Operator (`community-operators`, kanal `alpha`), izvožen iz konzole, brez `startingCSV`; `ARGOCD_CLUSTER_CONFIG_NAMESPACES=gitops`, da instanca upravlja tudi cluster-wide objekte (npr. namespace)
 - `02-argocd.yaml` – instanca Argo CD z Route (privzeto reencrypt)
 
 Dokumentacija operatorja: https://github.com/argoproj-labs/argocd-operator/tree/master/docs
