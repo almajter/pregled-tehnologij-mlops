@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: applications
+  namespace: gitops
+spec:
+  goTemplate: true
+  generators:
+  - git:
+      repoURL: https://github.com/almajter/pregled-tehnologij-mlops.git
+      revision: main
+      files:
+      - path: project/applications/*/config.yaml
+  template:
+    metadata:
+      name: "{{ .path.basename }}"
+    spec:
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{ .namespace }}"
+      project: default
+      sources:
+        - ref: app-values
+          repoURL: https://github.com/almajter/pregled-tehnologij-mlops.git
+          targetRevision: main
+        - helm:
+            valueFiles:
+              - $app-values/project/applications/{{ .path.basename }}/config.yaml
+          chart: "{{ .chart.name }}"
+          repoURL: "{{ .chart.repoURL }}"
+          targetRevision: "{{ .chart.version }}"

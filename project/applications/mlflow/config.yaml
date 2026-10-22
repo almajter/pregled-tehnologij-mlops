@@ -1,0 +1,5 @@
+namespace: mlops
+chart:
+  repoURL: https://community-charts.github.io/helm-charts
+  name: mlflow
+  version: 1.11.7
