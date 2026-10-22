@@ -7,6 +7,7 @@ Ročno, enkrat: namesti Argo CD. Vse ostalo nato namešča Argo CD iz gita.
 - `02-argocd.yaml` – instanca Argo CD z Route (privzeto reencrypt) in ApplicationSet controllerjem (brez `applicationSet: {}` ga operator ne namesti)
 
 Dokumentacija operatorja: https://github.com/argoproj-labs/argocd-operator/tree/master/docs
+Dokumentacija bootstrapping: https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/
 
 ```sh
 oc apply -f project/bootstrap/
