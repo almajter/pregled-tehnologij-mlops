@@ -4,6 +4,7 @@ metadata:
   name: argocd
   namespace: gitops
 spec:
+  applicationSet: {}
   server:
     route:
       enabled: true
