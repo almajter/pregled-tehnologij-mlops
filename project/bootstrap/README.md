@@ -5,8 +5,10 @@ Ročno, enkrat: namesti Argo CD. Vse ostalo nato namešča Argo CD iz gita.
 - `00-namespace.yaml` – namespace `gitops`
 - `01-subscription.yaml` – Argo CD Operator (`community-operators`, kanal `alpha`), izvožen iz konzole, brez `startingCSV`; `ARGOCD_CLUSTER_CONFIG_NAMESPACES=gitops`, da instanca upravlja tudi cluster-wide objekte (npr. namespace)
 - `02-argocd.yaml` – instanca Argo CD z Route (privzeto reencrypt) in ApplicationSet controllerjem (brez `applicationSet: {}` ga operator ne namesti)
+- `03-appset.yaml` – ApplicationSet: za vsako mapo v `project/applications/` ena aplikacija (glej `project/applications/README.md`)
 
 Dokumentacija operatorja: https://github.com/argoproj-labs/argocd-operator/tree/master/docs
+
 Dokumentacija bootstrapping: https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/
 
 ```sh
@@ -14,6 +16,8 @@ oc apply -f project/bootstrap/
 ```
 
 Na novem clustru `02-argocd.yaml` pade z `no matches for kind "ArgoCD"`, dokler operator ni `Succeeded`. Počakaj in ponovi.
+
+Argo CD ne upravlja `bootstrap/`, zato spremembe `03-appset.yaml` namesti ročno (`oc apply -f project/bootstrap/03-appset.yaml`).
 
 Prijava kot `admin`, geslo:
 
