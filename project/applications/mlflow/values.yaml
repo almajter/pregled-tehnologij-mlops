@@ -9,3 +9,14 @@ backendStore:
     database: app
   existingDatabaseSecret:
     name: postgresql-cluster-app
+ingress:
+  enabled: true
+  className: openshift-default
+  hosts:
+    - host: mlflow.apps.okd.alters.si
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - mlflow.apps.okd.alters.si
