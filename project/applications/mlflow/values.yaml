@@ -18,5 +18,4 @@ ingress:
         - path: /
           pathType: Prefix
   tls:
-    - hosts:
-        - mlflow.apps.okd.alters.si
+    - {}
