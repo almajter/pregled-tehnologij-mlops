@@ -25,7 +25,7 @@ spec:
           targetRevision: main
         - helm:
             valueFiles:
-              - $app-values/project/applications/{{ .path.basename }}/config.yaml
+              - $app-values/project/applications/{{ .path.basename }}/values.yaml
           chart: "{{ .chart.name }}"
           repoURL: "{{ .chart.repoURL }}"
           targetRevision: "{{ .chart.version }}"
