@@ -1,0 +1,5 @@
+namespace: mlops
+chart:
+  repoURL: https://cloudnative-pg.github.io/charts
+  name: cluster
+  version: 0.9.0
