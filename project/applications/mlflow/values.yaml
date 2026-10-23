@@ -2,3 +2,10 @@ podSecurityContext:
   fsGroup: null
 securityContext:
   runAsUser: null
+backendStore:
+  postgres:
+    enabled: true
+    host: postgresql-cluster-rw
+    database: app
+  existingDatabaseSecret:
+    name: postgresql-cluster-app
