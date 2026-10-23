@@ -29,3 +29,6 @@ spec:
           chart: "{{ .chart.name }}"
           repoURL: "{{ .chart.repoURL }}"
           targetRevision: "{{ .chart.version }}"
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
