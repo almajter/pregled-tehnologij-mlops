@@ -6,15 +6,6 @@ driver:
   imagePullPolicy: Always
   upgradePolicy:
     autoUpgrade: false
-validator:
-  cuda:
-    env:
-      - name: WITH_WORKLOAD
-        value: "false"
-  plugin:
-    env:
-      - name: WITH_WORKLOAD
-        value: "false"
 extraObjects:
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: RoleBinding
@@ -72,8 +63,8 @@ extraObjects:
               args:
                 - |
                   while true; do
-                    limit=$(chroot /run/nvidia/driver nvidia-smi --query-gpu=power.limit --format=csv,noheader,nounits 2>/dev/null)
-                    if [ -n "$limit" ] && [ "$limit" != "250.00" ]; then
+                    if limit=$(chroot /run/nvidia/driver nvidia-smi --query-gpu=power.limit --format=csv,noheader,nounits) \
+                      && [ "$limit" != "250.00" ]; then
                       echo "power limit $limit W, setting 250 W"
                       chroot /run/nvidia/driver nvidia-smi -pm 1
                       chroot /run/nvidia/driver nvidia-smi -pl 250
