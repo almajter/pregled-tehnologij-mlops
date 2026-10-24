@@ -9,6 +9,15 @@ backendStore:
     database: app
   existingDatabaseSecret:
     name: postgresql-cluster-app
+artifactRoot:
+  proxiedArtifactStorage: true
+  s3:
+    enabled: true
+    bucket: mlflow
+    existingSecret:
+      name: seaweedfs-s3-credentials
+extraEnvVars:
+  MLFLOW_S3_ENDPOINT_URL: http://seaweedfs-all-in-one:8333
 ingress:
   enabled: true
   className: openshift-default
