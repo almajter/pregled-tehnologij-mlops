@@ -1,0 +1,12 @@
+servingEngineSpec:
+  modelSpec:
+    - name: qwen
+      repository: vllm/vllm-openai
+      tag: v0.31.0
+      modelURL: Qwen/Qwen2.5-0.5B-Instruct
+      requestCPU: 2
+      requestMemory: 8Gi
+      requestGPU: 1
+      pvcStorage: 10Gi
+routerSpec:
+  enableRouter: false

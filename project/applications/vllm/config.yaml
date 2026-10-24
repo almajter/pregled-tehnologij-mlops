@@ -1,0 +1,5 @@
+namespace: model-serving
+chart:
+  repoURL: https://vllm-project.github.io/production-stack
+  name: vllm-stack
+  version: 0.1.13
