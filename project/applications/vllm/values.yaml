@@ -1,4 +1,6 @@
 servingEngineSpec:
+  strategy:
+    type: Recreate
   modelSpec:
     - name: qwen
       repository: vllm/vllm-openai
@@ -8,5 +10,8 @@ servingEngineSpec:
       requestMemory: 8Gi
       requestGPU: 1
       pvcStorage: 10Gi
+      env:
+        - name: HOME
+          value: /data
 routerSpec:
   enableRouter: false
