@@ -7,6 +7,8 @@ RUN for p in kernel kernel-core kernel-modules kernel-modules-core kernel-devel 
       --repofrompath=c10s-appstream,https://mirror.stream.centos.org/10-stream/AppStream/x86_64/os/ \
       --setopt=c10s-baseos.gpgcheck=0 --setopt=c10s-appstream.gpgcheck=0 \
       --setopt=install_weak_deps=False \
-      ./kernel-*.rpm \
- && rm -f kernel-*.rpm \
+      createrepo_c ./kernel-*.rpm \
+ && rpm -e --nodeps --noscripts kernel kernel-core kernel-modules kernel-modules-core \
+ && mkdir /opt/kernel && mv kernel-*.rpm /opt/kernel && createrepo_c /opt/kernel \
+ && printf '[kernel]\nname=kernel\nbaseurl=file:///opt/kernel\ngpgcheck=0\n' > /etc/yum.repos.d/kernel.repo \
  && dnf clean all
