@@ -3,6 +3,8 @@ platform:
 driver:
   repository: image-registry.openshift-image-registry.svc:5000/nvidia-gpu-operator
   version: "595.91.07"
+  upgradePolicy:
+    autoUpgrade: false
 validator:
   cuda:
     env:
