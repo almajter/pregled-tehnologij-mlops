@@ -1,0 +1,21 @@
+master:
+  enabled: false
+volume:
+  enabled: false
+filer:
+  enabled: false
+allInOne:
+  enabled: true
+  data:
+    type: persistentVolumeClaim
+  s3:
+    enabled: true
+    enableAuth: true
+    createBuckets:
+      - name: mlflow
+s3:
+  credentials:
+    admin:
+      existingSecret: seaweedfs-s3-credentials
+      accessKeyKey: AWS_ACCESS_KEY_ID
+      secretKeyKey: AWS_SECRET_ACCESS_KEY

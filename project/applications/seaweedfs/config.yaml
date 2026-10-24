@@ -1,0 +1,5 @@
+namespace: mlops
+chart:
+  repoURL: https://seaweedfs.github.io/seaweedfs/helm
+  name: seaweedfs
+  version: 4.49.0
