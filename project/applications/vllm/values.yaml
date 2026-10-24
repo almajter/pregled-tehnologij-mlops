@@ -9,6 +9,7 @@ servingEngineSpec:
       repository: vllm/vllm-openai
       tag: v0.31.0
       modelURL: Qwen/Qwen2.5-0.5B-Instruct
+      modelRevision: 7ae557604adf67be50417f59c2c2f167def9a775
       requestCPU: 2
       requestMemory: 8Gi
       requestGPU: 1
