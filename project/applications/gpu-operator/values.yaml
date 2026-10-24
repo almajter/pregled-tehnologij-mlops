@@ -1,5 +1,7 @@
 platform:
   openshift: true
+driver:
+  version: sha256:52b984c00817b08dcf5a0ed50dbba7b9f4d779614bde486a3483a4fb61dea3e5
 extraObjects:
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: RoleBinding
