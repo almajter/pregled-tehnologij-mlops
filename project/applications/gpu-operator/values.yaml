@@ -29,3 +29,65 @@ extraObjects:
       - kind: ServiceAccount
         name: node-feature-discovery
         namespace: nvidia-gpu-operator
+  - apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: gpu-power-limit
+      namespace: nvidia-gpu-operator
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: system:openshift:scc:privileged
+      namespace: nvidia-gpu-operator
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: system:openshift:scc:privileged
+    subjects:
+      - kind: ServiceAccount
+        name: gpu-power-limit
+        namespace: nvidia-gpu-operator
+  - apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      name: gpu-power-limit
+      namespace: nvidia-gpu-operator
+    spec:
+      selector:
+        matchLabels:
+          app: gpu-power-limit
+      template:
+        metadata:
+          labels:
+            app: gpu-power-limit
+        spec:
+          serviceAccountName: gpu-power-limit
+          nodeSelector:
+            nvidia.com/gpu.present: "true"
+          containers:
+            - name: power-limit
+              image: ghcr.io/almajter/driver:595.91.07-centos10
+              command: ["/bin/sh", "-c"]
+              # the driver resets the limit on every reload, so keep checking
+              args:
+                - |
+                  while true; do
+                    limit=$(chroot /run/nvidia/driver nvidia-smi --query-gpu=power.limit --format=csv,noheader,nounits 2>/dev/null)
+                    if [ -n "$limit" ] && [ "$limit" != "250.00" ]; then
+                      echo "power limit $limit W, setting 250 W"
+                      chroot /run/nvidia/driver nvidia-smi -pm 1
+                      chroot /run/nvidia/driver nvidia-smi -pl 250
+                      chroot /run/nvidia/driver nvidia-smi -lgc 0,1395
+                    fi
+                    sleep 10
+                  done
+              securityContext:
+                privileged: true
+              volumeMounts:
+                - name: driver
+                  mountPath: /run/nvidia/driver
+                  mountPropagation: HostToContainer
+          volumes:
+            - name: driver
+              hostPath:
+                path: /run/nvidia/driver
