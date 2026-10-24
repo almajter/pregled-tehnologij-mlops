@@ -1,0 +1,32 @@
+---
+name: Driver image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - project/images/driver/**
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and push driver image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Log in to ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: "{{defaultContext}}:project/images/driver"
+          push: true
+          # GPU Operator pulls <repository>/driver:<version>-<os>
+          tags: ghcr.io/almajter/driver:595.91.07-centos10
