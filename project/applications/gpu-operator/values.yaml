@@ -3,6 +3,7 @@ platform:
 driver:
   repository: ghcr.io/almajter
   version: "595.91.07"
+  imagePullPolicy: Always
   upgradePolicy:
     autoUpgrade: false
 validator:
