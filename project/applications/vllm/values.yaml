@@ -1,6 +1,9 @@
 servingEngineSpec:
   strategy:
     type: Recreate
+  vllmApiKey:
+    secretName: vllm-api-key
+    secretKey: VLLM_API_KEY
   modelSpec:
     - name: qwen
       repository: vllm/vllm-openai
@@ -10,6 +13,8 @@ servingEngineSpec:
       requestMemory: 8Gi
       requestGPU: 1
       pvcStorage: 10Gi
+      vllmConfig:
+        gpuMemoryUtilization: 0.25
       env:
         - name: HOME
           value: /data

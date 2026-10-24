@@ -15,3 +15,8 @@ Kako dodati novo aplikacijo? Nova mapa z obema datotekama, push, Sync v Argo CD.
       --from-literal=AWS_ACCESS_KEY_ID=$(openssl rand -hex 10) \
       --from-literal=AWS_SECRET_ACCESS_KEY=$(openssl rand -hex 20)
 
+`vllm` potrebuje Secret `vllm-api-key` v `model-serving` (API ključ za klice na `/v1`):
+
+    oc create secret generic vllm-api-key -n model-serving \
+      --from-literal=VLLM_API_KEY=$(openssl rand -hex 24)
+
