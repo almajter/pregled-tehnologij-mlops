@@ -45,7 +45,9 @@ extraObjects:
           ARG KOJI=https://kojihub.stream.centos.org/kojifiles/packages/kernel/6.12.0/254.el10/x86_64
           RUN curl -fLO $KOJI/kernel-devel-6.12.0-254.el10.x86_64.rpm \
            && curl -fLO $KOJI/kernel-headers-6.12.0-254.el10.x86_64.rpm \
-           && dnf install -y ./kernel-devel-*.rpm ./kernel-headers-*.rpm \
+           && dnf install -y --repofrompath=c10s-appstream,https://mirror.stream.centos.org/10-stream/AppStream/x86_64/os/ \
+                --setopt=c10s-appstream.gpgcheck=0 \
+                ./kernel-devel-*.rpm ./kernel-headers-*.rpm \
            && rm -f kernel-*.rpm \
            && dnf clean all
       strategy:
