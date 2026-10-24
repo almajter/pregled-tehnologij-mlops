@@ -15,3 +15,18 @@ servingEngineSpec:
           value: /data
 routerSpec:
   enableRouter: false
+extraObjects:
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      name: vllm
+      namespace: model-serving
+    spec:
+      host: vllm.apps.okd.alters.si
+      port:
+        targetPort: service-port
+      tls:
+        termination: edge
+      to:
+        kind: Service
+        name: vllm-qwen-engine-service
