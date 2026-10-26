@@ -19,7 +19,14 @@ spec:
         server: https://kubernetes.default.svc
         namespace: "{{ .namespace }}"
       project: default
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+  templatePatch: |
+    spec:
       sources:
+      {{- if .chart }}
         - ref: app-values
           repoURL: https://github.com/almajter/pregled-tehnologij-mlops.git
           targetRevision: main
@@ -29,7 +36,8 @@ spec:
           chart: "{{ .chart.name }}"
           repoURL: "{{ .chart.repoURL }}"
           targetRevision: "{{ .chart.version }}"
-      syncPolicy:
-        syncOptions:
-          - CreateNamespace=true
-          - ServerSideApply=true
+      {{- else }}
+        - repoURL: https://github.com/almajter/pregled-tehnologij-mlops.git
+          targetRevision: main
+          path: "{{ .path.path }}"
+      {{- end }}
