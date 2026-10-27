@@ -9,6 +9,10 @@ websocket:
 openaiBaseApiUrl: http://vllm-qwen-engine-service/v1
 openaiApiKeyExistingSecret: vllm-api-key
 openaiApiKeyExistingSecretKey: VLLM_API_KEY
+extraEnvVars:
+  # start.sh writes it to /app/backend, not writable for the random uid
+  - name: WEBUI_SECRET_KEY_FILE
+    value: /app/backend/data/.webui_secret_key
 ingress:
   enabled: true
   class: openshift-default
