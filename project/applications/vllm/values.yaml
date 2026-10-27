@@ -25,6 +25,9 @@ servingEngineSpec:
             value: https://mlflow.apps.okd.alters.si
           - name: HOME
             value: /tmp
+          # presigned url points to seaweedfs-all-in-one, only resolves in mlops
+          - name: MLFLOW_ENABLE_PROXY_MULTIPART_DOWNLOAD
+            value: "false"
         mountPvcStorage: true
       vllmConfig:
         gpuMemoryUtilization: 0.25
