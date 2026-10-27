@@ -67,10 +67,6 @@ def train(
     train_data: Input[Dataset],
     adapter: Output[Model],
 ) -> str:
-    import os
-
-    os.environ["HF_HOME"] = "/tmp/hf"
-
     import mlflow
     import torch
     from datasets import load_dataset
@@ -145,6 +141,8 @@ def socratic_tutor(
     train_task.set_caching_options(False)
     # pip: externally-managed-environment
     train_task.set_env_variable("PIP_BREAK_SYSTEM_PACKAGES", "1")
+    # PermissionError: '/.triton'
+    train_task.set_env_variable("HOME", "/tmp")
 
 
 compiler.Compiler().compile(socratic_tutor, "pipeline.yaml")
