@@ -14,8 +14,24 @@ servingEngineSpec:
       requestMemory: 8Gi
       requestGPU: 1
       pvcStorage: 10Gi
+      initContainer:
+        name: adapter
+        image: ghcr.io/astral-sh/uv:0.13.6-python3.12-trixie-slim
+        command: ["sh", "-c"]
+        args:
+          - rm -rf /data/loras && uvx --from mlflow-skinny==3.16.0 mlflow artifacts download --run-id ce61ee02ac0a4deea41499a7eacd5443 --artifact-path adapter --dst-path /data/loras
+        env:
+          - name: MLFLOW_TRACKING_URI
+            value: https://mlflow.apps.okd.alters.si
+          - name: HOME
+            value: /tmp
+        mountPvcStorage: true
       vllmConfig:
         gpuMemoryUtilization: 0.25
+        extraArgs:
+          - --enable-lora
+          - --lora-modules
+          - socratic=/data/loras/adapter
       env:
         - name: HOME
           value: /data
