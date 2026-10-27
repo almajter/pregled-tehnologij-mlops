@@ -1,0 +1,5 @@
+namespace: model-serving
+chart:
+  repoURL: https://helm.openwebui.com
+  name: open-webui
+  version: 17.0.0

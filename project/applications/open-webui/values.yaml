@@ -1,0 +1,17 @@
+ollama:
+  enabled: false
+pipelines:
+  enabled: false
+websocket:
+  manager: ""
+  redis:
+    enabled: false
+openaiBaseApiUrl: http://vllm-qwen-engine-service/v1
+openaiApiKeyExistingSecret: vllm-api-key
+openaiApiKeyExistingSecretKey: VLLM_API_KEY
+ingress:
+  enabled: true
+  class: openshift-default
+  annotations:
+    route.openshift.io/termination: edge
+  host: open-webui.apps.okd.alters.si
