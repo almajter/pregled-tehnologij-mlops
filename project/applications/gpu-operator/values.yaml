@@ -6,6 +6,21 @@ driver:
   imagePullPolicy: Always
   upgradePolicy:
     autoUpgrade: false
+devicePlugin:
+  config:
+    create: true
+    name: time-slicing-config
+    default: any
+    data:
+      any: |-
+        version: v1
+        flags:
+          migStrategy: none
+        sharing:
+          timeSlicing:
+            resources:
+              - name: nvidia.com/gpu
+                replicas: 2
 extraObjects:
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: RoleBinding
